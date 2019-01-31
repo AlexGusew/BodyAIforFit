@@ -1,24 +1,28 @@
 import React from 'react';
-import body from './Spider-man.svg';
-import { musclesToIdMap } from './constants';
-import ReactSVG from 'react-svg'
+import BodyFront from './body/BodyFront';
+import BodyBack from './body/BodyBack';
+import { musclesToIdMap, colors } from './constants';
+import ReactDOM from 'react-dom';
 
-class BodyFront extends React.Component {
+class Body extends React.Component {
   constructor() {
     super();
-  }
+    this.bodyRef = React.createRef();
+    this.siskaRef = React.createRef();
+    this.muscleIdToRef = {};
 
-  componentDidUpdate() {
-    const { highlight } = this.props;
+    for (const muscle in musclesToIdMap.front)
+      musclesToIdMap.front[muscle].forEach(muscleId => {
+        this.muscleIdToRef[muscleId] = React.createRef();
+      });
 
-    this.highlight(highlight);
+    console.log(this.muscleIdToRef);
   }
 
   setColorNameById = (id, color) => {
     const { transitionDuration } = this.props;
 
-    const node = document.getElementById(id);
-    console.log(id, color);
+    const node = ReactDOM.findDOMNode(this.muscleIdToRef[id].current);
     node.style.transition = `${transitionDuration / 1000}s`;
     node.style.fill = color;
   }
@@ -33,16 +37,22 @@ class BodyFront extends React.Component {
     });
   }
 
+  componentDidMount() {
+    this.highlight(this.props.highlight);
+  }
+  
+  componentDidUpdate() {
+    this.highlight(this.props.highlight);
+  }
+
   render() {
-
-    console.log(this.bodyRef);
-
-
     return (
-      <ReactSVG src={body} />
+      <React.Fragment>
+        <BodyFront {...this.props} muscleRefs={this.muscleIdToRef} />
+      </React.Fragment>
     );
   }
 }
 
 
-export default BodyFront;
+export default Body;

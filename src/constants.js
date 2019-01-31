@@ -50,6 +50,8 @@ const colors = {
   red: '#f00',
   green: '#0f0',
   blue: '#00f',
+  black: '#000',
+  white: '#fff',
 };
 
 export { bodyMuscles, colors, musclesToIdMap };
