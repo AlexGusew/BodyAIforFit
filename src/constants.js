@@ -1,30 +1,21 @@
 const bodyMuscles = {
-  front: {
     common: ["foot", "tibialis anterior"],
     calves: ["gastrocnemius"],
-    thighs: ["vastus medialis", "rectus femoris", "sartorius", "gracilis", "latae"],
-    forearmWrist: ["wrist", "wrist extensors"],
-    ABS: ["rectus abdominis"],
+    thighs: ["vastus medialis", "rectus femoris", "sartorius", "gracilis", "latae", "biceps femoris", "adductor magnus"],
+    forearmWrist: ["wrist", "wrist extensors", "wrist flexors"],
+    ABS: ["rectus abdominis", "external oblique"],
     biceps: ["biceps brachii"],
     chest: ["pectoralis major"],
-    shoulders: ["deltoids"],
-    back: ["trapezius"],
-  },
-  back: {
-    common: ["foot"],
-    calves: ["gastrocnemius"],
-    thighs: ["biceps femoris", "adductor magnus"],
-    forearmWrist: ["wrist", "wrist flexors"],
     shoulders: ["deltoids"],
     back: ["trapezius", "teres major", "latissimus dorsi"],
     SmallOfBack: ["musculus erector spinae"],
     buttocks: ["gluteus maximus"],
     triceps: ["triceps brachii"],
-  },
 };
 
 const musclesToIdMap = {
   front: {
+    "external oblique": ['path4625', 'path4631'],
     "foot": ['path4679', 'path4685'],
     "tibialis anterior": ['path4677', 'path4683'],
     "gastrocnemius": ['path4675', 'path4681'],
@@ -42,7 +33,19 @@ const musclesToIdMap = {
     "trapezius": ['path4605', 'path4607'],
   },
   back: {
-
+    "foot": ['path4699', 'path4697'],
+    "gastrocnemius": ['path4689', 'path4691', 'path4693', 'path4695'],
+    "biceps femoris": ['path4745', 'path4747', 'path4753', 'path4755'],
+    "adductor magnus": ['path4749', 'path4751'],
+    "wrist": ['path4701', 'path4707'],
+    "wrist flexors": ['path4703', 'path4705'],
+    "deltoids": ['path4711', 'path4709'],
+    "trapezius": ['path4729', 'path4719', 'path4713', 'path4715'],
+    "teres major": ['path4769', 'path4723'],
+    "latissimus dorsi": ['path4731', 'path4721'],
+    "musculus erector spinae": ['path4727', 'path4725'],
+    "gluteus maximus": ['path4759', 'path4757'],
+    "triceps brachii": ['path4761', 'path4767'],
   },
 }
 
@@ -54,4 +57,9 @@ const colors = {
   white: '#fff',
 };
 
-export { bodyMuscles, colors, musclesToIdMap };
+const sides = {
+  back: 'back',
+  front: 'front',
+};
+
+export { bodyMuscles, colors, musclesToIdMap, sides };

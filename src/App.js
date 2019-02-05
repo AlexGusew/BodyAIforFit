@@ -1,34 +1,27 @@
 import React, { Component } from 'react';
 import BodyFront from './Body';
-import { colors, bodyMuscles } from './constants';
+import { colors, bodyMuscles, sides } from './constants';
 
 class App extends Component {
-  constructor() {
-    super();
-    this.variants = [colors.red, colors.white];
-
-    this.state = {
-      variant: 0,
-    }
-  }
-
-  changeColor = () => {
-    this.setState({
-      variant: (this.state.variant + 1) % 2,
-    });
-  }
+  allMusclesToArray = () => (
+    Object.keys(Object.keys(bodyMuscles).reduce((muscles, muscleGroup) => {
+      bodyMuscles[muscleGroup].forEach(muscle => { muscles[muscle] = null });
+      return muscles;
+    }, {}))
+  );
 
   render() {
     return (
       <React.Fragment>
-        <button onClick={this.changeColor}>Change highlighted muscles</button>
         <BodyFront
           highlight={{
-            [this.variants[this.state.variant]]: [...bodyMuscles.front.thighs],
-            [this.variants[(this.state.variant + 1) % 2]]: [...bodyMuscles.front.forearmWrist],
+            [colors.green]:
+              // this.allMusclesToArray()
+            [...bodyMuscles.common]
           }}
-          transitionDuration={1000}
-          height={600}
+          sides={[sides.back, sides.front]}
+          transitionDuration={2000}
+          height={800}
           muscleColor={colors.white}
         />
       </React.Fragment>
