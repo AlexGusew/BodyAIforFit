@@ -33,7 +33,19 @@ class Body extends React.Component {
     node.style.fill = color;
   }
 
+  resetColor = () => {
+    this.props.sides.forEach(side => {
+      Object.keys(musclesToIdMap[side]).forEach(muscles => {
+        musclesToIdMap[side][muscles].forEach(muscleId => {
+          this.setColorNameById(muscleId, this.props.muscleColor);
+        });
+      });
+    });
+  }
+
   highlight = (highlight = {}) => {
+    this.resetColor();
+
     Object.keys(highlight).forEach(color => {
       highlight[color].forEach(muscle => {
         this.props.sides.forEach(side => {
@@ -80,7 +92,7 @@ class Body extends React.Component {
 
   render() {
     const { transitionDuration, sides, onClickMuscles, ...rest } = this.props;
-    console.log(this.props.highlight)
+
     return (
       <React.Fragment>
         {sides.map(side => (
