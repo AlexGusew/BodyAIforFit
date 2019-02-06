@@ -1,10 +1,10 @@
 import React from 'react'
 import { colors } from '../constants';
 
-const SvgComponent = ({ svgRef, muscleColor = colors.white, muscleRefs, ...props }) => (
+const SvgComponent = ({ bodyRef, muscleColor = colors.white, muscleRefs, ...props }) => (
   <svg
     viewBox="0 0 100 177"
-    ref={svgRef}
+    ref={bodyRef}
     {...props}
   >
     <path
@@ -280,10 +280,6 @@ const SvgComponent = ({ svgRef, muscleColor = colors.white, muscleRefs, ...props
       d="M41.91 169.39c-1.25-1.38.89-4.8 2.78-4.44 1 .2 1.72.82 1.8 1.57.08.83-1.07 2.17-2.42 2.82-.81.3-1.7.52-2.16.05z"
     />
   </svg>
-)
+);
 
-const ForwardRef = React.forwardRef((props, ref) => (
-  <SvgComponent svgRef={ref} {...props} />
-))
-
-export default ForwardRef
+export default SvgComponent;

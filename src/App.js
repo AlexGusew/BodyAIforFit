@@ -1,32 +1,8 @@
-import React, { Component } from 'react';
-import BodyFront from './Body';
-import { colors, bodyMuscles, sides } from './constants';
+import React from 'react';
+import BodyWrapper from './BodyWrapper';
 
-class App extends Component {
-  allMusclesToArray = () => (
-    Object.keys(Object.keys(bodyMuscles).reduce((muscles, muscleGroup) => {
-      bodyMuscles[muscleGroup].forEach(muscle => { muscles[muscle] = null });
-      return muscles;
-    }, {}))
-  );
-
-  render() {
-    return (
-      <React.Fragment>
-        <BodyFront
-          highlight={{
-            [colors.green]:
-              // this.allMusclesToArray()
-            [...bodyMuscles.common]
-          }}
-          sides={[sides.back, sides.front]}
-          transitionDuration={2000}
-          height={800}
-          muscleColor={colors.white}
-        />
-      </React.Fragment>
-    );
-  }
-}
+const App = () => (
+  <BodyWrapper />
+);
 
 export default App;

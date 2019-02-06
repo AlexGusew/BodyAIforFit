@@ -1,21 +1,22 @@
 import React from 'react';
 import BodyFront from './body/BodyFront';
 import BodyBack from './body/BodyBack';
-import { musclesToIdMap, colors, sides } from './constants';
+import { musclesToIdMap, sides } from './constants';
 import ReactDOM from 'react-dom';
 
 class Body extends React.Component {
   constructor() {
     super();
-    this.bodyRef = React.createRef();
     this.muscleIdToRef = {};
     this.sideToBody = {
-      [sides.front]: BodyFront,
-      [sides.back]: BodyBack,
-    };
-
-    this.state = {
-      side: null,
+      [sides.front]: {
+        component: BodyFront,
+        ref: React.createRef()
+      },
+      [sides.back]: {
+        component: BodyBack,
+        ref: React.createRef()
+      },
     };
 
     for (const side in musclesToIdMap)
@@ -46,25 +47,47 @@ class Body extends React.Component {
 
   componentDidMount() {
     this.highlight(this.props.highlight);
+    this.changeHangler();
   }
 
   componentDidUpdate() {
     this.highlight(this.props.highlight);
   }
 
+  componentWillUnmount() {
+    this.changeHangler(false);
+  }
+
   PassComponent = ({ component: Component, ...rest }) => (
     <Component {...rest} />
   );
 
-  render() {
-    const { transitionDuration, sides, ...rest } = this.props;
+  callback = (musclesToClick, muscle) => e => musclesToClick.callback(muscle, e);
 
+  changeHangler = (isAdd = true) => {
+    this.props.onClickMuscles.forEach(musclesToClick => {
+      musclesToClick.muscles.forEach(muscle => {
+        this.props.sides.forEach(side => {
+          musclesToIdMap[side][muscle] && musclesToIdMap[side][muscle].forEach(muscleId => {
+            isAdd
+              ? this.muscleIdToRef[muscleId].current.addEventListener('click', this.callback(musclesToClick, muscle))
+              : this.muscleIdToRef[muscleId].current.removeEventListener('click', this.callback(musclesToClick, muscle));
+          });
+        });
+      });
+    });
+  }
+
+  render() {
+    const { transitionDuration, sides, onClickMuscles, ...rest } = this.props;
+    console.log(this.props.highlight)
     return (
       <React.Fragment>
         {sides.map(side => (
           <this.PassComponent
-            id={side}
-            component={this.sideToBody[side]}
+            key={side}
+            component={this.sideToBody[side].component}
+            bodyRef={this.sideToBody[side].ref}
             muscleRefs={this.muscleIdToRef}
             {...rest} />
         ))}
@@ -72,6 +95,5 @@ class Body extends React.Component {
     );
   }
 }
-
 
 export default Body;
